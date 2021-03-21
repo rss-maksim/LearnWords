@@ -23,6 +23,10 @@ const TeamSchema = new Schema(
     contribution: {
       type: Array,
       required: false
+    },
+    pictureUrl: {
+      type: String,
+      required: false
     }
   },
   { collection: 'teammates' }
