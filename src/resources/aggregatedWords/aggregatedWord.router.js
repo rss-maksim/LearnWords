@@ -27,13 +27,16 @@ router.get('/', async (req, res) => {
     perPage,
     filter
   );
-  res.status(OK).send(words.map(word => word.addIdentifier()));
+  res.status(OK).send(words.map(({ _id, ...word }) => ({ id: _id, ...word })));
 });
 
 router.get('/:wordId', validator(wordId, 'params'), async (req, res) => {
-  const word = await aggregatedWordsService.get(req.params.wordId, req.userId);
+  const { _id, ...word } = await aggregatedWordsService.get(
+    req.params.wordId,
+    req.userId
+  );
 
-  res.status(OK).send(word.addIdentifier());
+  res.status(OK).send({ id: _id, ...word });
 });
 
 module.exports = router;
