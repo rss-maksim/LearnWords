@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { addMethods } = require('../../utils/toResponse');
+const { addMethods, addIdentifier } = require('../../utils/toResponse');
 
 const UserWordsSchema = new Schema(
   {
@@ -18,5 +18,6 @@ const UserWordsSchema = new Schema(
 UserWordsSchema.index({ wordId: 1, userId: 1 }, { unique: true });
 
 addMethods(UserWordsSchema);
+addIdentifier(UserWordsSchema);
 
 module.exports = mongoose.model('UserWords', UserWordsSchema);
