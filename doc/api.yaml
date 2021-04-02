@@ -453,6 +453,58 @@ paths:
           description: The user word has been deleted
         401:
           $ref: '#/components/responses/UnauthorizedError'
+  /users/{id}/words/batch:
+    parameters:
+      - name: id
+        description: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - Users/Words
+      summary: Create batch of user words
+      description: Create a user words by ids
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+                items:
+                  type: object
+                    properties:
+                      difficulty:
+                        type: string
+                      optional:
+                        type: object
+                        items:
+                          type: any
+      responses:
+        200:
+          description: The user words have been created.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    wordId:
+                      type: string
+                    difficulty:
+                      type: string
+                    optional:
+                      type: object
+                      items:
+                        type: any
+        400:
+          description: Bad request
+        401:
+          $ref: '#/components/responses/UnauthorizedError'          
   /users/{id}/aggregatedWords:
     parameters:
       - name: id

@@ -10,12 +10,4 @@ const addMethods = schema => {
   });
 };
 
-const addIdentifier = schema => {
-  // eslint-disable-next-line func-names
-  schema.method('addIdentifier', function () {
-    const { _id, ...rest } = this.toJSON();
-    return { id: _id, ...rest };
-  });
-};
-
-module.exports = { addMethods, addIdentifier };
+module.exports = { addMethods };

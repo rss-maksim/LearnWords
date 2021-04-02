@@ -12,4 +12,7 @@ const update = async (wordId, userId, userWord) =>
 
 const remove = async (wordId, userId) => wordRepo.remove(wordId, userId);
 
-module.exports = { getAll, get, save, update, remove };
+const createOrUpdate = async (wordId, userId, userWord) =>
+  wordRepo.createOrUpdate(wordId, userId, { ...userWord, wordId, userId });
+
+module.exports = { getAll, get, save, update, remove, createOrUpdate };

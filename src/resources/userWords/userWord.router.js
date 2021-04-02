@@ -1,6 +1,10 @@
 const { OK, NO_CONTENT } = require('http-status-codes');
 const router = require('express').Router({ mergeParams: true });
-const { userWord, wordId } = require('../../utils/validation/schemas');
+const {
+  userWord,
+  userWordList,
+  wordId
+} = require('../../utils/validation/schemas');
 const { validator } = require('../../utils/validation/validator');
 
 const userWordService = require('./userWord.service');
@@ -13,6 +17,19 @@ router.get('/', async (req, res) => {
 router.get('/:wordId', validator(wordId, 'params'), async (req, res) => {
   const word = await userWordService.get(req.params.wordId, req.userId);
   res.status(OK).send(word.toResponse());
+});
+
+router.post('/batch', validator(userWordList, 'body'), async (req, res) => {
+  const { body } = req;
+  await Promise.all(
+    body.map(({ wordId: id, ...rest }) =>
+      userWordService.createOrUpdate(id, req.userId, rest)
+    )
+  );
+  const userWords = await Promise.all(
+    body.map(({ wordId: id }) => userWordService.get(id, req.userId))
+  );
+  res.status(OK).send(userWords.map(w => w.toResponse()));
 });
 
 router.post(

@@ -75,6 +75,15 @@ const schemas = {
       difficulty: Joi.string().max(50),
       optional: optionalScheme
     }),
+  userWordList: Joi.array().items(
+    Joi.object()
+      .options({ abortEarly: false, allowUnknown: false })
+      .keys({
+        wordId: Joi.objectId(),
+        difficulty: Joi.string().max(50),
+        optional: optionalScheme
+      })
+  ),
   statistics: Joi.object()
     .options({ abortEarly: false, allowUnknown: false })
     .keys({

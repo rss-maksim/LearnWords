@@ -39,6 +39,19 @@ const update = async (wordId, userId, userWord) => {
   return updatedWord;
 };
 
+const createOrUpdate = async (wordId, userId, userWord) => {
+  const updatedWord = await UserWord.update(
+    { wordId, userId },
+    { $set: userWord },
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  if (!updatedWord) {
+    throw new NOT_FOUND_ERROR(ENTITY_NAME, { wordId, userId });
+  }
+
+  return updatedWord;
+};
+
 const remove = async (wordId, userId) => UserWord.deleteOne({ wordId, userId });
 
-module.exports = { getAll, get, save, update, remove };
+module.exports = { getAll, get, save, update, remove, createOrUpdate };
