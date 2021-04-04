@@ -57,14 +57,6 @@ const getAll = async (userId, group, page, perPage, filter) => {
     });
   }
 
-  if (page !== null && page >= 0) {
-    matches.push({
-      $match: {
-        page
-      }
-    });
-  }
-
   if (filter) {
     matches.push({
       $match: {
